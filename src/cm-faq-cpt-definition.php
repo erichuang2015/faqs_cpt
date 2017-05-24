@@ -111,7 +111,7 @@ function cm_faq_updated_messages( $messages ) {
 	$post_type        = get_post_type( $post );
 	$post_type_object = get_post_type_object( $post_type );
 
-	$messages['cm_class'] = array(
+	$messages['cm_faq'] = array(
 		0  => '', // Unused. Messages start at index 1.
 		1  => __( 'FAQs updated.', 'faqs-functionality' ),
 		2  => __( 'Custom field updated.', 'faqs-functionality' ),
