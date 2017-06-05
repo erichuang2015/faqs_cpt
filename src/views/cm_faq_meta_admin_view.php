@@ -1,5 +1,5 @@
 <?php
-namespace CarmeMias\ClassesCPT\src\views;
+namespace CarmeMias\FAQsFunctionality\src\views;
 
 	//$custom = get_post_custom($post->ID);
 	// Get the data if its already been entered
@@ -18,7 +18,7 @@ namespace CarmeMias\ClassesCPT\src\views;
 		<td>
 			<label>FAQ Order:</label>
 			<!-- input type="number" name="_cm_class_age_from" class="" value="< ?php echo $cm_class_age_from; ?>" --> 
-			 <select name="_cm_faq_order" class="" value="<?php echo $cm_class_age_from; ?>">
+			 <select name="_cm_faq_order" class="" value="<?php echo $cm_faq_order; ?>">
 			  <option value="">Select order...</option>
 			  <option value="">Don't show</option>
 			  <option value="10000" <?php if($cm_faq_order && $cm_faq_order == '10000') { ?> selected <?php } //end if ?>>Bottom of the screen</option>

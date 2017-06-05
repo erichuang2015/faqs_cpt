@@ -38,8 +38,8 @@ function init_constants() {
 		$plugin_url = str_replace( 'http://', 'https://', $plugin_url );
 	}
 
-	define( 'BOOKS-FUNCTIONALITY_URL', $plugin_url );
-	define( 'BOOKS-FUNCTIONALITY_DIR', plugin_dir_path( __DIR__ ) );
+	define( 'FAQ_FUNCTIONALITY_URL', $plugin_url );
+	define( 'FAQ_FUNCTIONALITY_DIR', plugin_dir_path( __DIR__ ) );
 }
 
 /**

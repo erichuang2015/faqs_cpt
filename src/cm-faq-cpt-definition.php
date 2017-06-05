@@ -247,7 +247,7 @@ function cm_faq_custom_columns( $column, $post_id ) {
 		case 'cm_faq-category':
 			$terms = get_the_terms( $post_id, 'faq-category' );
 			$terms_list = '';
-			foreach ( $terms as $term ) {$terms_list = $terms_list.$term->name.', ';}
+			foreach ( $terms as $term ) {$terms_list = $terms_list.$term->name.'</br>';}
 			echo '<div id="cm_faq-category-' . $post_id . '">' . $terms_list . '</div>'; 
 			break;
 	}
@@ -288,3 +288,62 @@ function cm_faq_order_orderby_backend( $query ) {
     }
 }
 
+
+/***********************************/
+/*         QUICK EDIT MENU         */
+/***********************************/
+
+add_action('quick_edit_custom_box',  __NAMESPACE__ .'\cm_faq_add_metabox_to_quick_edit', 10, 2);
+/*
+* Add Priority and Highlighted metaboxes to Quick Edit Menu
+*/
+function cm_faq_add_metabox_to_quick_edit($column_name, $post_type) {
+    if ( !in_array( $column_name, array( 'cm_faq_order') ) )
+        return;
+	
+	require_once plugin_dir_path(__FILE__).'views/cm_faq_order_meta_quick_edit_view.php';
+}
+
+
+add_action('save_post', __NAMESPACE__ .'\cm_faq_save_metabox_quick_edit_data', 1, 2);
+ /*
+ * Save new FAQ order value, attributed through the Quick Edit menu.
+ */
+function cm_faq_save_metabox_quick_edit_data($post_id, $post) {
+    // verify if this is an auto save routine. If it is our form has not been submitted, so we dont want
+    // to do anything
+	echo 'inside save quick edit values';
+	
+    if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+        return $post_id;    
+    // Check permissions
+    if ( !current_user_can( 'edit_post', $post_id ) )
+        return $post_id;
+     
+	 // ok, we're authenticated: we need to find and save the data. We'll put it into an array to make it easier to loop through
+	$faq_meta['_cm_faq_order'] = $_POST['_cm_faq_order'];
+	
+	// Add value as custom fields
+	foreach ($faq_meta as $key => $value) { // Cycle through the array
+		if( $post->post_type == 'revision' ) return; // Don't store custom data twice
+		
+		$value = implode(',', (array)$value); // If $value is an array, make it a CSV (unlikely)
+		        
+		if(get_post_meta($post->ID, $key, FALSE)) { // If the custom field already has a value
+		     update_post_meta($post->ID, $key, $value);
+		} else { // If the custom field doesn't have a value
+		     add_post_meta($post->ID, $key, $value);
+		}
+		
+		if(!$value) delete_post_meta($post->ID, $key); // Delete if blank
+	}
+}
+
+/*
+* See https://github.com/bamadesigner/manage-wordpress-posts-using-bulk-edit-and-quick-edit/blob/master/manage_wordpress_posts_using_bulk_edit_and_quick_edit.php AND https://developer.wordpress.org/reference/functions/wp_enqueue_script/*/
+
+add_action( 'admin_print_scripts-edit.php', __NAMESPACE__ . '\cm_faq_metabox_enqueue_admin_scripts' );
+
+function cm_faq_metabox_enqueue_admin_scripts() {
+	wp_enqueue_script( 'cm_faq_populate_metabox_scripts', FAQ_FUNCTIONALITY_URL . '/src/assets/js/cm_faq_metabox_populate_quick_edit.js', array( 'jquery', 'inline-edit-post' ), false, false );
+	}
