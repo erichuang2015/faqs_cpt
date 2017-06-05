@@ -312,7 +312,6 @@ add_action('save_post', __NAMESPACE__ .'\cm_faq_save_metabox_quick_edit_data', 1
 function cm_faq_save_metabox_quick_edit_data($post_id, $post) {
     // verify if this is an auto save routine. If it is our form has not been submitted, so we dont want
     // to do anything
-	echo 'inside save quick edit values';
 	
     if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
         return $post_id;    
