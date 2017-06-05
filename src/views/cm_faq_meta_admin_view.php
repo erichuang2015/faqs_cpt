@@ -12,11 +12,11 @@ namespace CarmeMias\ClassesCPT\src\views;
 
 <table class="form-table">
 	<tr>
-		<th colspan="3"><label>Choose in which position the question will appear (lowest number shows highest):</label></th>
+		<td>Choose in which position the question will appear:</br><em>Lowest number shows highest.</em></td>
 	</tr>
 	<tr style="border-bottom: 1px solid #eee;">
 		<td>
-			<label>From:</label>
+			<label>FAQ Order:</label>
 			<!-- input type="number" name="_cm_class_age_from" class="" value="< ?php echo $cm_class_age_from; ?>" --> 
 			 <select name="_cm_faq_order" class="" value="<?php echo $cm_class_age_from; ?>">
 			  <option value="">Select order...</option>

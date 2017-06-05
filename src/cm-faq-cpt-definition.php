@@ -104,7 +104,7 @@ add_filter( 'post_updated_messages',  __NAMESPACE__ . '\cm_faq_updated_messages'
 * cm_faq metabox
 */
 function cm_faqs_add_meta_box(){
-		add_meta_box( 'cm_faq_meta', 'FAQ order', __NAMESPACE__.'\render_cm_faq_metabox', 'cm_faq', 'normal', 'high' );
+		add_meta_box( 'cm_faq_meta', 'FAQ order', __NAMESPACE__.'\render_cm_faq_metabox', 'cm_faq', 'side', 'default' );
 }
 
 function render_cm_faq_metabox(){
@@ -217,5 +217,65 @@ function cm_faq_bulk_updated_messages( $bulk_messages, $bulk_counts ) {
 
     return $bulk_messages;
 
+}
+
+/***********************************/
+/*    DISPLAY IN FAQs LIST TABLE   */
+/***********************************/
+
+// see http://shibashake.com/wordpress-theme/expand-the-wordpress-quick-edit-menu
+add_filter('manage_cm_faq_posts_columns', __NAMESPACE__ .'\cm_faq_add_custom_columns');
+/*
+* Add a new column for FAQ order in the FAQs List table. 
+*/
+function cm_faq_add_custom_columns($columns) {
+    $columns['cm_faq_order'] = 'FAQs Order';
+	//$columns['grid_item_span'] = 'Grid Image span'; TODO this will be used for the tax
+    return $columns;
+}
+
+add_action( 'manage_posts_custom_column' , __NAMESPACE__ .'\cm_faq_custom_columns', 10, 2 );
+/*
+* Display the metaboxes value in the Post List table
+* See https://github.com/bamadesigner/manage-wordpress-posts-using-bulk-edit-and-quick-edit/blob/master/manage_wordpress_posts_using_bulk_edit_and_quick_edit.php line 169
+*/
+function cm_faq_custom_columns( $column, $post_id ) {
+	switch ( $column ) {
+		case 'cm_faq_order':
+			echo '<div id="cm_faq_order-' . $post_id . '">' . get_post_meta( $post_id, '_cm_faq_order', true ) . '</div>'; 
+			break;
+		/*TODO this will be used for the tax   case 'grid_item_span':
+			echo '<div id="grid_item_span-' . $post_id . '">' . get_post_meta( $post_id, '_grid_item_span', true ) . '</div>'; 
+			break;*/
+	}
+}
+
+add_filter( 'manage_edit-cm_faq_sortable_columns', __NAMESPACE__ .'\cm_faq_order_sortable_column' );
+/*
+* Make new Post Priority column sortable
+*/
+function cm_faq_order_sortable_column( $columns ) {
+    $columns['cm_faq_order'] = 'FAQs Order';
+ 
+    //To make a column 'un-sortable' remove it from the array
+    //unset($columns['date']);
+ 
+    return $columns;
+}
+
+add_action( 'pre_get_posts', __NAMESPACE__ .'\cm_faq_order_orderby_backend' );
+/*
+* Priority sorting instructions for the backend only (front end is set in home.php)
+*/
+function cm_faq_order_orderby_backend( $query ) {
+    if( ! is_admin() )
+        return;
+ 
+    $orderby = $query->get( 'orderby');
+ 
+    if( 'cm_faq_order' == $orderby ) {
+        $query->set('meta_key','_cm_faq_order');
+        $query->set('orderby','meta_value_num');
+    }
 }
 
