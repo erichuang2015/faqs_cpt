@@ -230,7 +230,7 @@ add_filter('manage_cm_faq_posts_columns', __NAMESPACE__ .'\cm_faq_add_custom_col
 */
 function cm_faq_add_custom_columns($columns) {
     $columns['cm_faq_order'] = 'FAQs Order';
-	//$columns['grid_item_span'] = 'Grid Image span'; TODO this will be used for the tax
+	$columns['cm_faq-category'] = 'FAQ category';
     return $columns;
 }
 
@@ -244,9 +244,12 @@ function cm_faq_custom_columns( $column, $post_id ) {
 		case 'cm_faq_order':
 			echo '<div id="cm_faq_order-' . $post_id . '">' . get_post_meta( $post_id, '_cm_faq_order', true ) . '</div>'; 
 			break;
-		/*TODO this will be used for the tax   case 'grid_item_span':
-			echo '<div id="grid_item_span-' . $post_id . '">' . get_post_meta( $post_id, '_grid_item_span', true ) . '</div>'; 
-			break;*/
+		case 'cm_faq-category':
+			$terms = get_the_terms( $post_id, 'faq-category' );
+			$terms_list = '';
+			foreach ( $terms as $term ) {$terms_list = $terms_list.$term->name.', ';}
+			echo '<div id="cm_faq-category-' . $post_id . '">' . $terms_list . '</div>'; 
+			break;
 	}
 }
 
@@ -256,6 +259,7 @@ add_filter( 'manage_edit-cm_faq_sortable_columns', __NAMESPACE__ .'\cm_faq_order
 */
 function cm_faq_order_sortable_column( $columns ) {
     $columns['cm_faq_order'] = 'FAQs Order';
+	$columns['cm_faq-category'] = 'FAQ Category';
  
     //To make a column 'un-sortable' remove it from the array
     //unset($columns['date']);
@@ -276,6 +280,11 @@ function cm_faq_order_orderby_backend( $query ) {
     if( 'cm_faq_order' == $orderby ) {
         $query->set('meta_key','_cm_faq_order');
         $query->set('orderby','meta_value_num');
+    }
+	
+    if( 'cm_faq-category' == $orderby ) {
+        $query->set('meta_key','_cm_faq-category');
+        $query->set('orderby','name');
     }
 }
 
