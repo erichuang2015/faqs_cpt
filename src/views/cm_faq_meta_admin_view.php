@@ -19,8 +19,8 @@ namespace CarmeMias\FAQsFunctionality\src\views;
 			<label>FAQ Order:</label>
 			<!-- input type="number" name="_cm_class_age_from" class="" value="< ?php echo $cm_class_age_from; ?>" --> 
 			 <select name="_cm_faq_order" class="" value="<?php echo $cm_faq_order; ?>">
-			  <option value="">Select order...</option>
-			  <option value="">Don't show</option>
+			  <option value="not set">Select order...</option>
+			  <option value="hidden">Don't show</option>
 			  <option value="10000" <?php if($cm_faq_order && $cm_faq_order == '10000') { ?> selected <?php } //end if ?>>Bottom of the screen</option>
           	<?php for ( $i=1; $i <= $current_num_faqs; $i++ ) { ?>
           		<option value="<?php echo $i; ?>" <?php if($cm_faq_order && $cm_faq_order == $i) { ?> selected <?php } //end if ?> > <?php echo $i; ?> </option>

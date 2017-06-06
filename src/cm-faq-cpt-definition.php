@@ -229,8 +229,8 @@ add_filter('manage_cm_faq_posts_columns', __NAMESPACE__ .'\cm_faq_add_custom_col
 * Add a new column for FAQ order in the FAQs List table. 
 */
 function cm_faq_add_custom_columns($columns) {
-    $columns['cm_faq_order'] = 'FAQs Order';
-	$columns['cm_faq-category'] = 'FAQ category';
+    $columns['cm_faq_order'] = 'Order';
+	$columns['cm_faq-category'] = 'Category';
     return $columns;
 }
 
@@ -258,9 +258,8 @@ add_filter( 'manage_edit-cm_faq_sortable_columns', __NAMESPACE__ .'\cm_faq_order
 * Make new Post Priority column sortable
 */
 function cm_faq_order_sortable_column( $columns ) {
-    $columns['cm_faq_order'] = 'FAQs Order';
-	$columns['cm_faq-category'] = 'FAQ Category';
- 
+    $columns['cm_faq_order'] = 'cm_faq_order';
+
     //To make a column 'un-sortable' remove it from the array
     //unset($columns['date']);
  
@@ -276,15 +275,10 @@ function cm_faq_order_orderby_backend( $query ) {
         return;
  
     $orderby = $query->get( 'orderby');
- 
-    if( 'cm_faq_order' == $orderby ) {
-        $query->set('meta_key','_cm_faq_order');
-        $query->set('orderby','meta_value_num');
-    }
 	
-    if( 'cm_faq-category' == $orderby ) {
-        $query->set('meta_key','_cm_faq-category');
-        $query->set('orderby','name');
+    if( 'cm_faq_order' == $orderby ) {
+        $query->set('orderby','meta_value_num');
+		$query->set('meta_key','_cm_faq_order');
     }
 }
 
@@ -334,7 +328,7 @@ function cm_faq_save_metabox_quick_edit_data($post_id, $post) {
 		     add_post_meta($post->ID, $key, $value);
 		}
 		
-		if(!$value) delete_post_meta($post->ID, $key); // Delete if blank
+		if(!$value) delete_post_meta($post->ID, $key); // Delete if blank 
 	}
 }
 
