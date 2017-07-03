@@ -38,6 +38,7 @@ function init_constants() {
 		$plugin_url = str_replace( 'http://', 'https://', $plugin_url );
 	}
 
+	//OPTIMIZE using constants like these is not recommended by WP Theme review team
 	define( 'FAQ_FUNCTIONALITY_URL', $plugin_url );
 	define( 'FAQ_FUNCTIONALITY_DIR', plugin_dir_path( __DIR__ ) );
 }

@@ -229,8 +229,16 @@ add_filter('manage_cm_faq_posts_columns', __NAMESPACE__ .'\cm_faq_add_custom_col
 * Add a new column for FAQ order in the FAQs List table. 
 */
 function cm_faq_add_custom_columns($columns) {
+	//remove Date column from its default position
+	$date = $columns['date'];
+	unset($columns['date']);  
+	
     $columns['cm_faq_order'] = 'Order';
 	$columns['cm_faq-category'] = 'Category';
+	
+    //Add the Date column again to the end of the table
+	$columns['date'] = $date;
+	
     return $columns;
 }
 
@@ -253,18 +261,20 @@ function cm_faq_custom_columns( $column, $post_id ) {
 	}
 }
 
+
 add_filter( 'manage_edit-cm_faq_sortable_columns', __NAMESPACE__ .'\cm_faq_order_sortable_column' );
 /*
 * Make new Post Priority column sortable
 */
-function cm_faq_order_sortable_column( $columns ) {
-    $columns['cm_faq_order'] = 'cm_faq_order';
 
-    //To make a column 'un-sortable' remove it from the array
-    //unset($columns['date']);
+function cm_faq_order_sortable_column( $columns ) {
+	
+	$columns['cm_faq_order'] = 'cm_faq_order';
  
     return $columns;
 }
+
+
 
 add_action( 'pre_get_posts', __NAMESPACE__ .'\cm_faq_order_orderby_backend' );
 /*
@@ -273,15 +283,14 @@ add_action( 'pre_get_posts', __NAMESPACE__ .'\cm_faq_order_orderby_backend' );
 function cm_faq_order_orderby_backend( $query ) {
     if( ! is_admin() )
         return;
- 
+ 	
     $orderby = $query->get( 'orderby');
 	
     if( 'cm_faq_order' == $orderby ) {
-        $query->set('orderby','meta_value_num');
 		$query->set('meta_key','_cm_faq_order');
+        $query->set('orderby','meta_value_num');
     }
 }
-
 
 /***********************************/
 /*         QUICK EDIT MENU         */
@@ -304,6 +313,9 @@ add_action('save_post', __NAMESPACE__ .'\cm_faq_save_metabox_quick_edit_data', 1
  * Save new FAQ order value, attributed through the Quick Edit menu.
  */
 function cm_faq_save_metabox_quick_edit_data($post_id, $post) {
+	$post_type = get_post_type( $post );
+    if ( !( 'cm_faq' == $post_type) ) 
+        return;
     // verify if this is an auto save routine. If it is our form has not been submitted, so we dont want
     // to do anything
 	
