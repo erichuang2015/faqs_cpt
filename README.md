@@ -2,7 +2,7 @@
 
 This plugin has been tested with WordPress v.4.7.5.
 
-## What it does.
+## What it does
 
 The **Frequently Asked Questions WordPress plugin** adds a new section to your WordPress Dashboard that allows you to create a list of Frequently Asked Questions to display on your website or blog pages or posts. 
 
@@ -13,7 +13,7 @@ For each Frequently Asked Question (FAQ), you can enter the following informatio
 * The category
 * The order in which it is to be listed.
 
-## How to install it.
+## How to install it
 
 Follow these steps to install it:
 
@@ -26,9 +26,9 @@ Please notice that all plugins are desactivated by default after install. If you
 
 Once the plugin has been installed and activated, a new section called FAQs will appear in the left-hand side menu of your site's Dashboard.
 
-## How to create a new FAQ.
+## How to create a new FAQ
 
-We recommend that, if required, FAQ categories are created before the actual FAQs. To create a FAQ category, please refer to the section [How to create a FAQ category][FAQCategory].
+We recommend that, if required, FAQ categories are created before the actual FAQs. To create a FAQ category, please refer to the section [How to create a FAQ category](#how-to-create-a-FAQ-category).
 
 To create a new FAQ, you can either:
 
@@ -38,7 +38,7 @@ To create a new FAQ, you can either:
 This will open the **New FAQ** section. 
 
 
-[FAQCategory]: ## How to create a FAQ category.
+## How to create a FAQ category
 
 
 ## How to use it in your website.
