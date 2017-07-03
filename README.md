@@ -26,9 +26,9 @@ Please notice that all plugins are desactivated by default after install. If you
 
 Once the plugin has been installed and activated, a new section called FAQs will appear in the left-hand side menu of your site's Dashboard.
 
-##How to create a new FAQ.
+## How to create a new FAQ.
 
-We recommend that, if required, FAQ categories are created before the actual FAQs. To create a FAQ category, please refer to the section ["How to create a FAQ category"][FAQCategory].
+We recommend that, if required, FAQ categories are created before the actual FAQs. To create a FAQ category, please refer to the section [How to create a FAQ category][FAQCategory].
 
 To create a new FAQ, you can either:
 
@@ -38,7 +38,7 @@ To create a new FAQ, you can either:
 This will open the **New FAQ** section. 
 
 
-##[FAQCategory]:How to create a FAQ category.
+[FAQCategory]: ## How to create a FAQ category.
 
 
 ## How to use it in your website.
