@@ -1,6 +1,6 @@
 # Frequently Asked Questions WordPress plugin
 
-This plugin has been tested with WordPress v.4.7.5.
+This plugin has been tested with WordPress v.4.8
 
 ## What it does
 
@@ -26,25 +26,10 @@ Please notice that all plugins are desactivated by default after install. If you
 
 Once the plugin has been installed and activated, a new section called FAQs will appear in the left-hand side menu of your site's Dashboard.
 
-## How to create a new FAQ
+## Find out more
 
-We recommend that, if required, FAQ categories are created before the actual FAQs. To create a FAQ category, please refer to the section [How to create a FAQ category](#how-to-create-a-faq-category).
-
-To create a new FAQ, you can either:
-
-* From the Dashboard left-hand side menu, click FAQs > New FAQ, or
-* From the admin navigation bar at the top, click New > FAQ
-
-This will open the **New FAQ** section. 
+Once you've installed the plugin, please refer to the [Quick How-To User Guide](https://github.com/carmemias/faqs_cpt/wiki) to find out how to create, edit and display FAQs in your project.
 
 
-
-## How to create a FAQ category
-
-
-## How to use it in your website.
-
-Insert the shortcode [faqs] in the page or post where you wish them to appear.
-
-By default, all questions will be listed in the order specified. If no order has been specified, the questions will be displayed according to the date and time they were created, newest first.
+If you find any issues with this plugin please let me know. Thank you!
 
