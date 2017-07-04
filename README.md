@@ -28,7 +28,7 @@ Once the plugin has been installed and activated, a new section called FAQs will
 
 ## How to create a new FAQ
 
-We recommend that, if required, FAQ categories are created before the actual FAQs. To create a FAQ category, please refer to the section [How to create a FAQ category](#how-to-create-a-FAQ-category).
+We recommend that, if required, FAQ categories are created before the actual FAQs. To create a FAQ category, please refer to the section [How to create a FAQ category](#how-to-create-a-faq-category).
 
 To create a new FAQ, you can either:
 
@@ -36,6 +36,7 @@ To create a new FAQ, you can either:
 * From the admin navigation bar at the top, click New > FAQ
 
 This will open the **New FAQ** section. 
+
 
 
 ## How to create a FAQ category

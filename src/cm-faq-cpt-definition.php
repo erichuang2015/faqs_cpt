@@ -255,7 +255,11 @@ function cm_faq_custom_columns( $column, $post_id ) {
 		case 'cm_faq-category':
 			$terms = get_the_terms( $post_id, 'faq-category' );
 			$terms_list = '';
-			foreach ( $terms as $term ) {$terms_list = $terms_list.$term->name.'</br>';}
+			if($terms) {
+				foreach ( $terms as $term ) {$terms_list = $terms_list.$term->name.'</br>';}
+			} else {
+				$terms_list = 'not yet set </br>';
+			}
 			echo '<div id="cm_faq-category-' . $post_id . '">' . $terms_list . '</div>'; 
 			break;
 	}
@@ -313,6 +317,11 @@ add_action('save_post', __NAMESPACE__ .'\cm_faq_save_metabox_quick_edit_data', 1
  * Save new FAQ order value, attributed through the Quick Edit menu.
  */
 function cm_faq_save_metabox_quick_edit_data($post_id, $post) {
+	//not to be run for new faqs.
+	$current_action = get_current_screen()->action;
+	if( 'add' == $current_action )
+		return;
+	
 	$post_type = get_post_type( $post );
     if ( !( 'cm_faq' == $post_type) ) 
         return;
@@ -326,7 +335,7 @@ function cm_faq_save_metabox_quick_edit_data($post_id, $post) {
         return $post_id;
      
 	 // ok, we're authenticated: we need to find and save the data. We'll put it into an array to make it easier to loop through
-	$faq_meta['_cm_faq_order'] = $_POST['_cm_faq_order'];
+		$faq_meta['_cm_faq_order'] = $_POST['_cm_faq_order'];
 	
 	// Add value as custom fields
 	foreach ($faq_meta as $key => $value) { // Cycle through the array
@@ -336,13 +345,33 @@ function cm_faq_save_metabox_quick_edit_data($post_id, $post) {
 		        
 		if(get_post_meta($post->ID, $key, FALSE)) { // If the custom field already has a value
 		     update_post_meta($post->ID, $key, $value);
-		} else { // If the custom field doesn't have a value
+		} else { // If the custom field doesn't already have a value or it has changed
 		     add_post_meta($post->ID, $key, $value);
 		}
 		
 		if(!$value) delete_post_meta($post->ID, $key); // Delete if blank 
 	}
 }
+
+add_action('admin_notices', __NAMESPACE__.'\cm_faqs_admin_notice');
+/*
+* Show a warning notice in the FAQ Edit page if the FAQ's current order value is higher than the number of FAQS.
+*/
+function cm_faqs_admin_notice(){
+    global $pagenow;
+	global $post;
+	
+	$cm_faq_order = get_post_meta($post->ID, '_cm_faq_order', true);	
+	$current_num_faqs = wp_count_posts('cm_faq')->publish;
+	$display_warning = ($pagenow == 'post.php') && ($post->post_type == 'cm_faq') && isset($cm_faq_order) && ($cm_faq_order != '10000') && (intval($cm_faq_order)>intval($current_num_faqs));
+	
+    if( $display_warning ) {		
+         echo '<div class="notice notice-warning is-dismissible">
+             <p>This FAQ\'s current order is '.$cm_faq_order.' but there are only '.$current_num_faqs.' published FAQs. The FAQ will still show work but its order value will not be listed in the dropdown list further down this page.</p>
+         </div>';
+    }
+}
+
 
 /*
 * See https://github.com/bamadesigner/manage-wordpress-posts-using-bulk-edit-and-quick-edit/blob/master/manage_wordpress_posts_using_bulk_edit_and_quick_edit.php AND https://developer.wordpress.org/reference/functions/wp_enqueue_script/*/
