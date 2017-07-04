@@ -1,5 +1,7 @@
 # Frequently Asked Questions WordPress plugin
 
+Version 1.0.0
+
 This plugin has been tested with WordPress v.4.8
 
 ## What it does
