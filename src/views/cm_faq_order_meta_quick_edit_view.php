@@ -12,7 +12,7 @@ namespace CarmeMias\FAQsFunctionality\src\views;
 		 <select id="_cm_faq_order" name="_cm_faq_order" class=""> <!-- The selected attribute is set with javascript -->
 		  <option value="not set">Select order...</option>
 		  <option value="hidden">Don't show</option>
-		  <option value="10000">Bottom of the screen</option>
+		  <option value="10000">Bottom of the list</option>
       	<?php for ( $i=1; $i <= $current_num_faqs; $i++ ) { ?>
       		<option value="<?php echo $i; ?>"> <?php echo $i; ?> </option>
           <?php } //end for loop ?>
