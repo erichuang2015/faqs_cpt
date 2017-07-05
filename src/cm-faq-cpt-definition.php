@@ -361,9 +361,14 @@ function cm_faqs_admin_notice(){
     global $pagenow;
 	global $post;
 	
+	//this notice should not even be attempted in admin sections other than cm_faq edit.
+	if( ('post.php'!=$pagenow) || ($post->post_type != 'cm_faq') ){ 
+		return;
+	}
+	
 	$cm_faq_order = get_post_meta($post->ID, '_cm_faq_order', true);	
 	$current_num_faqs = wp_count_posts('cm_faq')->publish;
-	$display_warning = ($pagenow == 'post.php') && ($post->post_type == 'cm_faq') && isset($cm_faq_order) && ($cm_faq_order != '10000') && (intval($cm_faq_order)>intval($current_num_faqs));
+	$display_warning = isset($cm_faq_order) && ($cm_faq_order != '10000') && (intval($cm_faq_order)>intval($current_num_faqs));
 	
     if( $display_warning ) {		
          echo '<div class="notice notice-warning is-dismissible">
