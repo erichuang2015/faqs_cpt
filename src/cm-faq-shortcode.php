@@ -11,9 +11,23 @@
 
 namespace CarmeMias\FAQsFunctionality\src;
 
+//See https://wordpress.stackexchange.com/questions/165754/enqueue-scripts-styles-when-shortcode-is-present
+/*
+* Enqueue javascript and stylesheet files used by the shortcode view
+*/
+function cm_faqs_shortcode_enqueue_scripts(){
+	wp_register_style('faqs_shortcode_style', FAQ_FUNCTIONALITY_URL . '/src/assets/css/faqs_shortcode_style.css');
+	wp_register_script('faqs_shortcode_script', FAQ_FUNCTIONALITY_URL . '/src/assets/js/faqs_shortcode_script.js');
+	
+	//OPTIMIZE this currently loads the script and style on all pages. It could be improved by loading themonly if a shortcut is present
+	wp_enqueue_style( 'faqs_shortcode_style' );
+	wp_enqueue_script( 'faqs_shortcode_script' );
+}
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\cm_faqs_shortcode_enqueue_scripts');	
+
+
 //[faqs category="category-slug"]
-function faqs_shortcode_handler( $atts ){
-	//TODO we must add the stylesheet and js for the view and the accordion
+function cm_faqs_shortcode_handler( $atts ){
 	
 	//the default value for category
 	$a = shortcode_atts( array(
@@ -55,40 +69,43 @@ function faqs_shortcode_handler( $atts ){
 	} 
 	
 	//now we have the data, we can build the view
+	
+	//TODO add the category title
 	?>
 	
 	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 	
-	<?php foreach ( $questions as $question ) : setup_postdata( $question ); 
-			$question_id = $question->ID;
+	<?php foreach ( $questions as $question ) : setup_postdata( $GLOBALS['post'] =& $question ); 
 			
-			//TODO we must not display the FAQs set to order = "not show"
-			//TODO where do the FAQs with order not set go? hidden or to the bottom? 
+	    $question_meta = get_post_meta( get_the_ID(), '_cm_faq_order', true );
+
+	    if(( $question_meta != 'hidden' ) && ( $question_meta != 'not set' )){
 		?>
 	
-	  <article id="post-<?php echo $question_id; ?>" <?php post_class($question_id); //TODO post_class here gives us the page classes rather than the FAQ classes ?>>  
+	  <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>  
 
-		<header class="entry-header" role="tab" id="heading-<?php echo $question_id; ?>">
-			<h3 class="entry-title">
-				<a role="button" class="collapsed" data-parent="#accordion" href="#collapse-<?php echo $question_id; ?>" aria-expanded="false" aria-controls="collapse-<?php echo $question_id; ?>">
-					<?php echo $question->post_title;?>
-				    <span class="dashicons dashicons-arrow-down-alt2" aria-hidden="true" role="img"></span>
-				</a>
-			</h3>
+		<header class="entry-header" role="tab" id="heading-<?php the_ID(); ?>">
+			<?php 
+					the_title( '<h3 class="entry-title"><a role="button" class="collapsed" data-parent="#accordion" href="#collapse-'. get_the_ID() .'" aria-expanded="false" aria-controls="collapse-'. get_the_ID() .'">', '<span class="dashicons dashicons-arrow-down-alt2" aria-hidden="true" role="img"></span></a></h3>' );
+			?>
 		</header><!-- .entry-header -->
 
-		<div class="entry-content collapse" role="tabpanel" aria-labelledby="heading-<?php echo $question_id; ?>" id="collapse-<?php echo $question_id; ?>">
+		<div class="entry-content collapse" role="tabpanel" aria-labelledby="heading-<?php the_ID(); ?>" id="collapse-<?php the_ID(); ?>">
 			<?php the_content();?>
 		</div --><!-- .entry-content -->
 
 	  </article><!-- #post-## -->
 	
-	<?php endforeach; ?>
+	<?php 
+		} //end if $question_meta
+	
+	endforeach; ?>
 	
 		</div><!-- accordion -->
 		
 	<?php wp_reset_postdata();
-}
+  }
 
-add_shortcode( 'faqs', __NAMESPACE__ . '\faqs_shortcode_handler');
+add_shortcode( 'faqs', __NAMESPACE__ . '\cm_faqs_shortcode_handler');
+
 ?>

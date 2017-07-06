@@ -379,10 +379,12 @@ function cm_faqs_admin_notice(){
 
 
 /*
+* Enqueue javascript for the FAQs Quick Edit functionality
 * See https://github.com/bamadesigner/manage-wordpress-posts-using-bulk-edit-and-quick-edit/blob/master/manage_wordpress_posts_using_bulk_edit_and_quick_edit.php AND https://developer.wordpress.org/reference/functions/wp_enqueue_script/*/
 
 add_action( 'admin_print_scripts-edit.php', __NAMESPACE__ . '\cm_faq_metabox_enqueue_admin_scripts' );
 
 function cm_faq_metabox_enqueue_admin_scripts() {
-	wp_enqueue_script( 'cm_faq_populate_metabox_scripts', FAQ_FUNCTIONALITY_URL . '/src/assets/js/cm_faq_metabox_populate_quick_edit.js', array( 'jquery', 'inline-edit-post' ), false, false );
+	wp_register_script( 'cm_faq_populate_metabox_scripts', FAQ_FUNCTIONALITY_URL . '/src/assets/js/cm_faq_metabox_populate_quick_edit.js', array( 'jquery', 'inline-edit-post' ), false, false );
+	wp_enqueue_script( 'cm_faq_populate_metabox_scripts' );
 	}
