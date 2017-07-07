@@ -11,7 +11,7 @@
  * Plugin Name: Frequently Asked Questions Custom Post Type
  * Plugin URI:  http://carmemias.com
  * Description: Adds a new FAQs section and custom post type.
- * Version:     1.0.0
+ * Version:     1.5.0
  * Author:      carmemias
  * Author URI:  http://carmemias.com
  * Text Domain: faqs-functionality
