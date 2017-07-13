@@ -48,12 +48,12 @@
 
 #accordion > article.cm_faq .entry-title a {
 	max-width:100%;
-	padding-right:30px;
+	padding-right:10px;
 }
 
 #accordion > article.cm_faq .entry-title .dashicons {
 	float:right;
-	margin-left:10px;
+	margin-left:5px;
 }
 
 #accordion > article.cm_faq .entry-content.collapse {
