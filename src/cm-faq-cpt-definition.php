@@ -31,8 +31,8 @@ function cm_faq_cpt() { //see https://codex.wordpress.org/Function_Reference/pos
 	
 	register_post_type( 'cm_faq', array(
 		'labels'  => array(
-			'name' => _x( 'FAQs', 'faqs CPT general name' , 'faqs-functionality'),
-			'singular_name' => _x( 'FAQ', 'faqs CPT singular name' , 'faqs-functionality'),
+			'name' => __( 'FAQs', 'faqs CPT general name' , 'faqs-functionality'),
+			'singular_name' => __( 'FAQ', 'faqs CPT singular name' , 'faqs-functionality'),
 			'all_items' => __('All FAQs'),
  		    'add_new_item' => __('Add New Question', 'faqs-functionality'),
  		    'edit_item' => __('Edit Question', 'faqs-functionality'),
@@ -47,7 +47,7 @@ function cm_faq_cpt() { //see https://codex.wordpress.org/Function_Reference/pos
 		'show_ui' => true,
 		'has_archive' => true, #this means it'll have an "index/loop" page
 		'rewrite' => array(
-			'slug' => _x( 'faqs', 'CPT permalink slug', 'cm_faq'),
+			'slug' => __( 'faqs', 'CPT permalink slug', 'cm_faq'),
 			'with_front' => false,
 		),
 		'menu_icon'   => 'dashicons-megaphone',
@@ -318,9 +318,11 @@ add_action('save_post', __NAMESPACE__ .'\cm_faq_save_metabox_quick_edit_data', 1
  */
 function cm_faq_save_metabox_quick_edit_data($post_id, $post) {
 	//not to be run for new faqs.
-	$current_action = get_current_screen()->action;
-	if( 'add' == $current_action )
-		return;
+	if (function_exists('get_current_screen')){
+		$current_action = get_current_screen()->action;
+		if( 'add' == $current_action )
+			return;
+	}
 	
 	$post_type = get_post_type( $post );
     if ( !( 'cm_faq' == $post_type) ) 
@@ -370,7 +372,7 @@ function cm_faqs_admin_notice(){
 	$current_num_faqs = wp_count_posts('cm_faq')->publish;
 	$display_warning = isset($cm_faq_order) && ($cm_faq_order != '10000') && (intval($cm_faq_order)>intval($current_num_faqs));
 	
-    if( $display_warning ) {		
+    if( $display_warning ) {		//TODO make translatable
          echo '<div class="notice notice-warning is-dismissible">
              <p>This FAQ\'s current order is '.$cm_faq_order.' but there are only '.$current_num_faqs.' published FAQs. The FAQ will still show work but its order value will not be listed in the dropdown list further down this page.</p>
          </div>';

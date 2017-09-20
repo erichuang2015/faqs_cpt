@@ -13,8 +13,6 @@
 		//faq.children[0].addEventListener('click',toggleFAQ);
 		faq.querySelector('header').addEventListener('click',toggleFAQ);
 	}
-	console.log('faqs prepared');
-
 
 	/*
 	* Shows/Hides the FAQ answer when the FAQ header is clicked.

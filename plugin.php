@@ -22,7 +22,7 @@
 namespace CarmeMias\FAQsFunctionality;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit( 'Cheatin&#8217; uh?' );
+	exit( 'Access denied.' );
 }
 
 /**

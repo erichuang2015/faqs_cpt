@@ -4,7 +4,7 @@ namespace CarmeMias\FAQsFunctionality\src\views;
 	$current_num_faqs = wp_count_posts('cm_faq')->publish;
 ?>
 
-<fieldset class="inline-edit-col-right">
+<fieldset class="inline-edit-col-right"> <!-- TODO make translatable -->
     <div class="inline-edit-col">
         <span class="title">FAQ Order</span>
         <input type="hidden" name="cm_faq_noncename" id="cm_faq_noncename" value="<?php echo wp_create_nonce('cm_faq_order'); ?>" />

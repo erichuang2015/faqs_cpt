@@ -11,7 +11,7 @@ namespace CarmeMias\FAQsFunctionality\src\views;
 	.cm_faq_admin_notice select {background-color:#ffb900}
 </style>
 
-<table class="form-table">
+<table class="form-table"> <!-- TODO make translatable -->
 	<tr>
 		<td>Choose the question's position in the list:</br><em>Low numbers show first.</em></td>
 	</tr>
