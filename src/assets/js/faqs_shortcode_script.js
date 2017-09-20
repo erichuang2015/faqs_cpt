@@ -18,6 +18,7 @@
 	* Shows/Hides the FAQ answer when the FAQ header is clicked.
 	*/
 	function toggleFAQ(e){
+		console.log('in line 21');
 		e.preventDefault();
 		//faq header background turns grey when not collapsed
 		this.classList.toggle('grey-background');
