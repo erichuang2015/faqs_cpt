@@ -319,9 +319,12 @@ add_action('save_post', __NAMESPACE__ .'\cm_faq_save_metabox_quick_edit_data', 1
 function cm_faq_save_metabox_quick_edit_data($post_id, $post) {
 	//not to be run for new faqs.
 	if (function_exists('get_current_screen')){
-		$current_action = get_current_screen()->action;
-		if( 'add' == $current_action )
-			return;
+		$current_screen = get_current_screen(); //was clashing with other plugins without this
+		if( null != $current_screen){
+			$current_action = get_current_screen()->action;
+			if( 'add' == $current_action )
+				return;
+		} else {return;}
 	}
 	
 	$post_type = get_post_type( $post );
