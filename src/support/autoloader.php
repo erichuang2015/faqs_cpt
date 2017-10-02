@@ -23,7 +23,8 @@ function autoload_files( $src_root_dir ) {
 
 	$filenames = array(
 		 'cm-faq-cpt-definition',
-		 'cm-faq-shortcode'
+		 'cm-faq-shortcode',
+		 'cm-faq-info-meta-box'
 	);
 
 	foreach( $filenames as $filename ) {
