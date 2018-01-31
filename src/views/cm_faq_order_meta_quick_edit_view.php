@@ -1,6 +1,6 @@
 <?php
 namespace CarmeMias\FAQsFunctionality\src\views;
-    
+
 	$current_num_faqs = wp_count_posts('cm_faq')->publish;
 ?>
 
@@ -8,7 +8,7 @@ namespace CarmeMias\FAQsFunctionality\src\views;
     <div class="inline-edit-col">
         <span class="title">FAQ Order</span>
         <input type="hidden" name="cm_faq_noncename" id="cm_faq_noncename" value="<?php echo wp_create_nonce('cm_faq_order'); ?>" />
-		
+
 		 <select id="_cm_faq_order" name="_cm_faq_order" class=""> <!-- The selected attribute is set with javascript -->
 		  <option value="not set">Select order...</option>
 		  <option value="hidden">Don't show</option>

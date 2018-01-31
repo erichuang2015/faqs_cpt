@@ -3,9 +3,12 @@ namespace CarmeMias\FAQsFunctionality\src\views;
 
 	//$custom = get_post_custom($post->ID);
 	// Get the data if its already been entered
-	$cm_faq_order = get_post_meta($post->ID, '_cm_faq_order', true);	
+	$cm_faq_order = get_post_meta($post->ID, '_cm_faq_order', true);
 	$current_num_faqs = wp_count_posts('cm_faq')->publish;
-	
+	//if in add new screen, increase num of faqs by 1.
+	$screen = get_current_screen();
+	if('add' == $screen->action){ $current_num_faqs++;}
+
 ?>
 <style>
 	.cm_faq_admin_notice select {background-color:#ffb900}
