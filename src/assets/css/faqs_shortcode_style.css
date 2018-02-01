@@ -13,7 +13,7 @@
 #accordion > article.cm_faq {
 	padding-bottom:0;
 	margin-bottom: 10px;
-} 
+}
 
 #accordion > article.has-shadow {
 	border: 1px solid #ccc;
@@ -24,9 +24,9 @@
 
 #accordion > article.cm_faq .entry-header {
 	background-color:#fdfdfd;
-	border: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 	padding:5px;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
 	transition: padding-top 200ms, padding-left 200ms;
 }
 
@@ -40,16 +40,21 @@
 	-moz-box-shadow: #ccc 2px 2px 5px;
 }
 
+#accordion > article.cm_faq h3.entry-title {
+	margin-top:0;
+}
+
 #accordion > article.cm_faq .grey-background {
 	border:0;
-	border-bottom: 1p solid #ccc;
+	border-bottom: 1px solid #ccc;
 	background-color:#eee;
 	padding-top: 5px;
 	padding-left: 5px;
 }
 
 #accordion > article.cm_faq .entry-title {
-	font-size: 1rem;
+	font-size: 1em;
+	font-weight: normal;
 }
 
 #accordion > article.cm_faq .entry-title a {
