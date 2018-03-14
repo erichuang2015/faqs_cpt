@@ -18,7 +18,7 @@ function cm_faqs_shortcode_enqueue_scripts(){
 	global $post;
 
 	wp_register_style('faqs_shortcode_style', FAQ_FUNCTIONALITY_URL . '/src/assets/css/faqs_shortcode_style.css');
-	wp_register_script('faqs_shortcode_script', FAQ_FUNCTIONALITY_URL . '/src/assets/js/faqs_shortcode_script.js');
+	wp_register_script('faqs_shortcode_script', FAQ_FUNCTIONALITY_URL . '/src/assets/js/faqs_shortcode_script.js', array(), false, true);
 
 	//See https://wordpress.stackexchange.com/questions/165754/enqueue-scripts-styles-when-shortcode-is-present
 	if( is_a( $post, 'WP_Post' ) && has_shortcode($post->post_content, 'faqs')){
