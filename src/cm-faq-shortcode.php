@@ -51,8 +51,7 @@ function cm_faqs_shortcode_handler( $atts ){
 		//if the category doesn't exist, return error message
 		if( ( 0==$category_ID ) || ( null==$category_ID ) ) {
 
-			//TODO make translatable
-			return '<p>The selected category does not exist.</p>';
+			return '<p>' . __('The selected category does not exist.', 'faqs-functionality') . '</p>';
 
 		}
 
@@ -95,7 +94,7 @@ function cm_faqs_shortcode_handler( $atts ){
 		$category_slug = $single_result['category']->slug;
 		$questions = $single_result['questions'];
 
-		$output_string .= '<h2 class="category-title">' . $category_name . '</h3>';
+		$output_string .= '<h2 class="category-title">' . esc_attr($category_name) . '</h3>';
 		$output_string .= '<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
 
 		foreach ( $questions as $question ) : setup_postdata( $GLOBALS['post'] =& $question );
@@ -109,16 +108,16 @@ function cm_faqs_shortcode_handler( $atts ){
 
 	    	if(( $question_order != 'hidden' ) && ( $question_order != 'not set' )){
 
-				$output_substring .= '<article id="post-' . $question_ID . '" class="post-' . $question_ID . ' cm_faq type-cm_faq status-publish hentry faq-category-' . $category_slug . '" >';
-				$output_substring .= '<header class="entry-header" role="tab" id="heading-' . $question_ID . '">';
-				$output_substring .= '<h3 class="entry-title"><a role="button" class="collapsed" data-parent="#accordion" href="#collapse-'. $question_ID .'" aria-expanded="false" aria-controls="collapse-'. $question_ID .'">';
-				$output_substring .= $question_title;
+				$output_substring .= '<article id="post-' . esc_attr($question_ID) . '" class="post-' . esc_attr($question_ID) . ' cm_faq type-cm_faq status-publish hentry faq-category-' . esc_attr($category_slug) . '" >';
+				$output_substring .= '<header class="entry-header" role="tab" id="heading-' . esc_attr($question_ID) . '">';
+				$output_substring .= '<h3 class="entry-title"><a role="button" class="collapsed" data-parent="#accordion" href="#collapse-'. esc_attr($question_ID) .'" aria-expanded="false" aria-controls="collapse-'. esc_attr($question_ID) .'">';
+				$output_substring .= esc_attr($question_title);
 				$output_substring .= '<span class="dashicons dashicons-arrow-down-alt2" aria-hidden="true" role="img"></span></a></h3>';
 				$output_substring .= '</header><!-- .entry-header -->';
-				$output_substring .= '<div class="entry-content collapse" role="tabpanel" aria-labelledby="heading-' . $question_ID . '" id="collapse-' . $question_ID . '">';
-				$output_substring .= $answer;
+				$output_substring .= '<div class="entry-content collapse" role="tabpanel" aria-labelledby="heading-' . esc_attr($question_ID) . '" id="collapse-' . esc_attr($question_ID) . '">';
+				$output_substring .= html_entity_decode(esc_textarea($answer));
 				$output_substring .= '</div --><!-- .entry-content -->';
-				$output_substring .= '</article><!-- #post-' . $question_ID . ' -->';
+				$output_substring .= '</article><!-- #post-' . esc_attr($question_ID) . ' -->';
 
 			} //end if $question_order
 
@@ -130,9 +129,9 @@ function cm_faqs_shortcode_handler( $atts ){
 
 	 } //foreach $results_array
 
-	 return $output_string;
-
 	 wp_reset_postdata();
+
+	 return $output_string;
 
   }
 

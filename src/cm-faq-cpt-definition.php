@@ -37,7 +37,7 @@ function cm_faq_cpt() { //see https://codex.wordpress.org/Function_Reference/pos
 		'labels'  => array(
 				'name' => __( 'FAQs', 'faqs CPT general name' , 'faqs-functionality'),
 				'singular_name' => __( 'FAQ', 'faqs CPT singular name' , 'faqs-functionality'),
-				'all_items' => __('All FAQs'),
+				'all_items' => __('All FAQs' , 'faqs-functionality'),
  		    'add_new_item' => __('Add New Question', 'faqs-functionality'),
  		    'edit_item' => __('Edit Question', 'faqs-functionality'),
  		    'new_item' => __('New Question', 'faqs-functionality'),
@@ -131,7 +131,7 @@ function save_cm_faq_meta($post_id, $post){
 						return $post->ID;}
 
 	// ok, we're authenticated: we need to find and save the data. We'll put it into an array to make it easier to loop through
-	$faq_meta['_cm_faq_order'] = $_POST['_cm_faq_order'];
+	$faq_meta['_cm_faq_order'] = sanitize_text_field($_POST['_cm_faq_order']);
 
 	// Add values of $events_meta as custom fields
 	foreach ($faq_meta as $key => $value) { // Cycle through the $classes_meta array!
@@ -237,8 +237,8 @@ function cm_faq_add_custom_columns($columns) {
 	$date = $columns['date'];
 	unset($columns['date']);
 
-    $columns['cm_faq_order'] = 'Order';
-	$columns['cm_faq-category'] = 'Category';
+  $columns['cm_faq_order'] = __('Order', 'faqs-functionality');
+	$columns['cm_faq-category'] = __('Category', 'faqs-functionality');
 
     //Add the Date column again to the end of the table
 	$columns['date'] = $date;
@@ -254,17 +254,17 @@ add_action( 'manage_posts_custom_column' , __NAMESPACE__ .'\cm_faq_custom_column
 function cm_faq_custom_columns( $column, $post_id ) {
 	switch ( $column ) {
 		case 'cm_faq_order':
-			echo '<div id="cm_faq_order-' . $post_id . '">' . get_post_meta( $post_id, '_cm_faq_order', true ) . '</div>';
+			echo '<div id="cm_faq_order-' . esc_attr($post_id) . '">' . esc_attr(get_post_meta( $post_id, '_cm_faq_order', true )) . '</div>';
 			break;
 		case 'cm_faq-category':
 			$terms = get_the_terms( $post_id, 'faq-category' );
 			$terms_list = '';
 			if($terms) {
-				foreach ( $terms as $term ) {$terms_list = $terms_list.$term->name.'</br>';}
+				foreach ( $terms as $term ) {$terms_list = $terms_list.$term->name.', ';}
 			} else {
-				$terms_list = 'not yet set </br>';
+				$terms_list = __('not yet set', 'faqs-functionality');
 			}
-			echo '<div id="cm_faq-category-' . $post_id . '">' . $terms_list . '</div>';
+			echo '<div id="cm_faq-category-' . esc_attr($post_id) . '">' . esc_attr($terms_list) . '</div>';
 			break;
 	}
 }
@@ -295,7 +295,7 @@ function cm_faq_order_orderby_backend( $query ) {
     $orderby = $query->get( 'orderby');
 
     if( 'cm_faq_order' == $orderby ) {
-		$query->set('meta_key','_cm_faq_order');
+				$query->set('meta_key','_cm_faq_order');
         $query->set('orderby','meta_value_num');
     }
 }
@@ -344,7 +344,7 @@ function cm_faq_save_metabox_quick_edit_data($post_id, $post) {
         return $post_id;
 
 	 // ok, we're authenticated: we need to find and save the data. We'll put it into an array to make it easier to loop through
-		$faq_meta['_cm_faq_order'] = $_POST['_cm_faq_order'];
+		$faq_meta['_cm_faq_order'] = sanitize_text_field($_POST['_cm_faq_order']);
 
 	// Add value as custom fields
 	foreach ($faq_meta as $key => $value) { // Cycle through the array
@@ -367,7 +367,7 @@ add_action('admin_notices', __NAMESPACE__.'\cm_faqs_admin_notice');
 * Show a warning notice in the FAQ Edit page if the FAQ's current order value is higher than the number of FAQS.
 */
 function cm_faqs_admin_notice(){
-    global $pagenow;
+  global $pagenow;
 	global $post;
 
 	//this notice should not even be attempted in admin sections other than cm_faq edit.
@@ -381,7 +381,7 @@ function cm_faqs_admin_notice(){
 
     if( $display_warning ) {		//TODO make translatable
          echo '<div class="notice notice-warning is-dismissible">
-             <p>This FAQ\'s current order is '.$cm_faq_order.' but there are only '.$current_num_faqs.' published FAQs. The FAQ will still show work but its order value will not be listed in the dropdown list further down this page.</p>
+             <p>'. __('This FAQ\'s current order is '.esc_html($cm_faq_order).' but there are only '.esc_html($current_num_faqs).' published FAQs. The FAQ will still show work but its order value will not be listed in the dropdown list further down this page.', 'faqs-functionality').'</p>
          </div>';
     }
 }
