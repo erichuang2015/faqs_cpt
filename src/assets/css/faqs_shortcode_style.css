@@ -85,7 +85,7 @@
 
 #accordion > article.cm_faq .entry-content.collapse.in {
 	display: block;
-  	opacity: 1;
+	opacity: 1;
 	padding-left: 5px;
 	padding-top:10px;
 }
